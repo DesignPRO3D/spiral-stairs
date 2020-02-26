@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { InfoComponent } from './info/info.component';
 
@@ -7,7 +7,7 @@ import { InfoComponent } from './info/info.component';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
   _segment = '_one';
 
@@ -25,6 +25,16 @@ export class HomePage {
   constructor(
     public modalController: ModalController
   ) {}
+
+  ngOnInit() {
+    this._d = JSON.parse(localStorage.getItem('spiralStairs._d'));
+    this._radius = JSON.parse(localStorage.getItem('spiralStairs._radius'));
+    this._Tangle = JSON.parse(localStorage.getItem('spiralStairs._Tangle'));
+    this._Trise = JSON.parse(localStorage.getItem('spiralStairs._Trise'));
+    this._Tnum = JSON.parse(localStorage.getItem('spiralStairs._Tnum'));
+
+    this.onCalculateData();
+  }
 
   async presentModal() {
     const popover = await this.modalController.create({
@@ -76,6 +86,12 @@ export class HomePage {
       this._BarLength = Number(B.toFixed(0));
       this._BalustradeAngle = Number(balustradeAngle.toFixed(1));
       this._A = Number(A.toFixed(0));
+
+      localStorage.setItem('spiralStairs._d', JSON.stringify(this._d));
+      localStorage.setItem('spiralStairs._radius', JSON.stringify(this._radius));
+      localStorage.setItem('spiralStairs._Tangle', JSON.stringify(this._Tangle));
+      localStorage.setItem('spiralStairs._Trise', JSON.stringify(this._Trise));
+      localStorage.setItem('spiralStairs._Tnum', JSON.stringify(this._Tnum));
     } else {
       this._BendingRadius = 0;
       this._BarLength = 0;
